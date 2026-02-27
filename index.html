@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anonymous Confession Portal</title>
+
+<style>
+    /* =========================
+   RESET & GLOBAL SETTINGS
+========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fb;
+    color:#333;
+    line-height:1.6;
+}
+
+/* =========================
+   HEADER
+========================= */
+.header{
+    background: linear-gradient(135deg,#2c3e50,#34495e);
+    color:white;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+}
+
+.header h1{
+    font-size:22px;
+    letter-spacing:0.5px;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+nav{
+    display:flex;
+    gap:22px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+    position:relative;
+}
+
+/* underline animation */
+nav a::after{
+    content:"";
+    position:absolute;
+    width:0%;
+    height:2px;
+    left:0;
+    bottom:-4px;
+    background:white;
+    transition:0.3s;
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+/* =========================
+   MOBILE MENU ICON
+========================= */
+.menu-toggle{
+    display:none;
+    font-size:26px;
+    cursor:pointer;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.container{
+    max-width:950px;
+    margin:40px auto;
+    background:white;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   WELCOME SECTION
+========================= */
+.welcome{
+    text-align:center;
+    color:#2c3e50;
+    margin-bottom:10px;
+    font-size:26px;
+}
+
+.welcome-text{
+    text-align:center;
+    color:#555;
+    margin-bottom:30px;
+}
+
+/* =========================
+   HEADINGS
+========================= */
+.container h3{
+    margin-top:15px;
+    margin-bottom:10px;
+    color:#34495e;
+}
+
+/* =========================
+   LIST STYLE
+========================= */
+.container ul{
+    padding-left:20px;
+}
+
+.container li{
+    margin-bottom:8px;
+}
+
+/* =========================
+   HOVER EFFECT
+========================= */
+.container:hover{
+    transform:translateY(-2px);
+    transition:0.3s ease;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width:768px){
+
+    .menu-toggle{
+        display:block;
+    }
+
+    nav{
+        position:absolute;
+        top:60px;
+        left:0;
+        width:100%;
+        background:#2c3e50;
+        flex-direction:column;
+        display:none;
+        padding:15px 0;
+        text-align:center;
+    }
+
+    nav a{
+        padding:10px 0;
+    }
+
+    nav.show{
+        display:flex;
+    }
+
+    .container{
+        margin:20px;
+        padding:22px;
+    }
+
+    .welcome{
+        font-size:22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>Anonymous Confession Portal</h1>
+
+    <!-- Mobile Menu Icon -->
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
+    <nav id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="student.html">Student</a>
+        <a href="teacher.html">Teacher</a>
+        <a href="admin.html">Admin</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <!-- ✅ Welcome Section -->
+    <h2 class="welcome">Welcome to Anonymous Confession Portal</h2>
+    <p class="welcome-text">
+        A safe space where students and teachers can share thoughts,
+        feedback, and confessions anonymously.
+    </p>
+
+    <!-- About Section -->
+    <h3>About</h3>
+    <p>
+        This platform allows users to express opinions freely while
+        maintaining privacy and respect within the institution.
+    </p>
+
+    <h3>Rules & Regulations</h3>
+    <ul>
+        <li>Respect all users</li>
+        <li>No abusive language</li>
+        <li>No personal information sharing</li>
+        <li>Admin moderation is enabled</li>
+    </ul>
+
+</main>
+
+<script>
+
+/* =========================
+   MOBILE MENU TOGGLE
+========================= */
+
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+menuToggle.addEventListener("click", () => {
+    navMenu.classList.toggle("show");
+});
+
+</script>
+</body>
+</html>
