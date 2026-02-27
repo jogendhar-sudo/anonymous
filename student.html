@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+
+    <style>
+        /* =========================
+   HEADER
+========================= */
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .header-title {
+            font-size: 22px;
+        }
+
+        /* MENU ICON */
+        .menu-toggle {
+            position: absolute;
+            left: 20px;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        /* =========================
+   LOGIN PAGE
+========================= */
+
+        .login-body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+        }
+
+        /* LOGIN CARD */
+        .login-container {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            width: 360px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .login-container h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        /* INPUT FIELDS */
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        /* LOGIN BUTTON */
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-container button:hover {
+            background: #2980b9;
+        }
+
+        /* SMALL ANIMATION */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+   MOBILE VIEW
+========================= */
+        @media (max-width:768px) {
+
+            .login-container {
+                width: 90%;
+                padding: 25px;
+            }
+
+            .login-container h2 {
+                font-size: 20px;
+            }
+        }
+
+
+        /* =========================
+   DASHBOARD LAYOUT
+========================= */
+        .dashboard {
+            display: flex;
+            min-height: 90vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hide Sidebar */
+        .sidebar.hide {
+            transform: translateX(-100%);
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .sidebar a:hover {
+            color: #1abc9c;
+        }
+
+        /* =========================
+   MAIN CONTENT
+========================= */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            background: #f4f7fb;
+        }
+
+        /* =========================
+   WELCOME BOX
+========================= */
+        .welcome-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .welcome-box h2 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .rules-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #3498db;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .rules-link:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+   BUTTONS
+========================= */
+        button {
+            margin-top: 15px;
+            margin-right: 10px;
+            padding: 10px 15px;
+            border: none;
+            background: #3498db;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        /* =========================
+   RESPONSIVE POST DESIGN
+========================= */
+
+        .postCard {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+        }
+
+        .postCard small {
+            display: block;
+            margin-top: 5px;
+            color: gray;
+        }
+
+        /* Reaction buttons container */
+        .postCard div button {
+            margin-top: 8px;
+            margin-right: 5px;
+        }
+
+        /* Comment section */
+        .commentSection input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .commentSection button {
+            margin-top: 8px;
+        }
+
+        /* =========================
+   MOBILE OPTIMIZATION
+========================= */
+        @media (max-width: 768px) {
+
+            .main-content {
+                padding: 15px;
+            }
+
+            textarea {
+                height: 100px;
+            }
+
+            .postCard {
+                padding: 12px;
+            }
+
+            .postCard div {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .postCard div button {
+                flex: 1 1 45%;
+            }
+
+            .commentSection input {
+                font-size: 14px;
+            }
+
+        }
+
+        /* =========================
+   LOGOUT BUTTON
+========================= */
+        .logout {
+            margin-top: auto;
+            padding: 12px 15px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff5f6d, #c0392b);
+            color: white !important;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout:hover {
+            background: linear-gradient(135deg, #ff4b5c, #a93226);
+            transform: translateY(-2px);
+        }
+
+        .logout:active {
+            transform: scale(0.97);
+        }
+
+        /* =========================
+   MOBILE VIEW
+========================= */
+        @media (max-width: 768px) {
+
+            .dashboard {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                height: 100%;
+                z-index: 1000;
+                width: 220px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .logout {
+                width: 100%;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ================= LOGIN SECTION ================= -->
+    <div id="loginPage" class="login-body">
+
+        <div class="login-container">
+            <h2>Anonymous Confession</h2>
+
+            <form onsubmit="loginUser(event)">
+                <input type="text" id="username" placeholder="Username" required>
+
+                <input type="password" id="password" placeholder="Password" required>
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+    </div>
+    <header class="header">
+        <div class="menu-toggle" id="menuToggle">☰</div>
+        <h1 class="header-title">Anonymous Confession</h1>
+    </header>
+
+    <!-- ✅ DASHBOARD FLEX CONTAINER -->
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <a href="#" onclick="showHome()">Home</a>
+            <a href="#" onclick="showProfile()">Profile</a>
+            <a href="#" onclick="showPost()">Post</a>
+
+            <a href="#" class="logout" onclick="logoutUser()">Logout</a>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- HOME -->
+            <div id="homeSection" class="content-section">
+                <section class="welcome-box">
+                    <h2>Welcome to dear student</h2>
+                    <p>
+                        Welcome to Anonymous Confession.
+                        Please read the rules & conditions before posting.
+                    </p>
+
+                    <a href="#" class="rules-link">
+                        Read Rules & Conditions
+                    </a>
+                </section>
+            </div>
+
+            <!-- PROFILE -->
+            <div id="profileSection" style="display:none;">
+                <h2>Profile Settings</h2>
+                <button>Request Password</button>
+                <button>Change Password</button>
+            </div>
+
+            <div id="postSection" style="display:none;">
+                <h2>Write Anonymous Message</h2>
+
+                <textarea id="messageInput" placeholder="Write your anonymous confession..."></textarea>
+
+                <button onclick="sendPost()">Send Message</button>
+
+                <hr>
+
+                <!-- POSTS WILL APPEAR HERE -->
+                <div id="postsContainer"></div>
+            </div>
+
+        </main>
+
+    </div>
+    <script>
+        /* ======================
+   LOGIN SYSTEM
+====================== */
+
+        const loginPage = document.getElementById("loginPage");
+        const dashboardPage = document.getElementById("dashboardPage");
+
+        function loginUser(event) {
+            event.preventDefault();
+
+            // hide login
+            loginPage.style.display = "none";
+
+            // show dashboard
+            dashboardPage.style.display = "block";
+
+            // show welcome/home first
+            showHome();
+        }
+
+        function logoutUser() {
+            window.location.href = "index.html";
+        }
+
+
+        /* ======================
+           SECTION SWITCHING
+        ====================== */
+
+        const homeSection = document.getElementById("homeSection");
+        const profileSection = document.getElementById("profileSection");
+        const postSection = document.getElementById("postSection");
+
+        function showHome() {
+            homeSection.style.display = "block";
+            profileSection.style.display = "none";
+            postSection.style.display = "none";
+        }
+
+        function showProfile() {
+            homeSection.style.display = "none";
+            profileSection.style.display = "block";
+            postSection.style.display = "none";
+        }
+
+        function showPost() {
+            homeSection.style.display = "none";
+            profileSection.style.display = "none";
+            postSection.style.display = "block";
+        }
+
+
+        /* ======================
+           CREATE POST
+        ====================== */
+
+        function sendPost() {
+
+            let message = document.getElementById("messageInput").value;
+
+            if (message.trim() === "") {
+                alert("Write a message first!");
+                return;
+            }
+
+            let post = document.createElement("div");
+            post.className = "postCard";
+            post.dataset.action = "none"; // like/dislike control
+
+            let date = new Date().toLocaleString();
+
+            post.innerHTML = `
+        <h4>Anonymous</h4>
+        <p>${message}</p>
+        <small>${date}</small>
+
+        <div style="margin-top:10px;">
+            👍 <span class="likeCount">0</span>
+            <button onclick="likePost(this)">Like</button>
+
+            👎 <span class="dislikeCount">0</span>
+            <button onclick="dislikePost(this)">Dislike</button>
+
+            <button onclick="toggleComment(this)">Comment</button>
+        </div>
+
+        <div class="commentSection" style="display:none;">
+            <input type="text" class="commentInput"
+                   placeholder="Write comment">
+            <button onclick="addComment(this)">Send</button>
+
+            <div class="commentsList"></div>
+        </div>
+    `;
+
+            document.getElementById("postsContainer").appendChild(post);
+
+            document.getElementById("messageInput").value = "";
+        }
+
+
+        /* ======================
+           LIKE SYSTEM
+        ====================== */
+
+        function likePost(btn) {
+
+            let post = btn.closest(".postCard");
+
+            if (post.dataset.action !== "none") {
+                alert("You already reacted to this post");
+                return;
+            }
+
+            let count = post.querySelector(".likeCount");
+            count.innerText = parseInt(count.innerText) + 1;
+
+            post.dataset.action = "liked";
+        }
+
+
+        /* ======================
+           DISLIKE SYSTEM
+        ====================== */
+
+        function dislikePost(btn) {
+
+            let post = btn.closest(".postCard");
+
+            if (post.dataset.action !== "none") {
+                alert("You already reacted to this post");
+                return;
+            }
+
+            let count = post.querySelector(".dislikeCount");
+            count.innerText = parseInt(count.innerText) + 1;
+
+            post.dataset.action = "disliked";
+        }
+
+
+        /* ======================
+           COMMENT TOGGLE
+        ====================== */
+
+        function toggleComment(btn) {
+
+            let box = btn.parentElement.nextElementSibling;
+
+            box.style.display =
+                box.style.display === "none" ? "block" : "none";
+        }
+
+
+        /* ======================
+           ADD COMMENT
+        ====================== */
+
+        function addComment(btn) {
+
+            let section = btn.parentElement;
+            let input = section.querySelector(".commentInput");
+            let list = section.querySelector(".commentsList");
+
+            if (input.value.trim() === "") return;
+
+            let comment = document.createElement("p");
+            comment.innerHTML = "💬 " + input.value;
+
+            list.appendChild(comment);
+
+            input.value = "";
+        }
+
+
+        /* ======================
+           SIDEBAR TOGGLE
+        ====================== */
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const menuToggle = document.getElementById("menuToggle");
+            const sidebar = document.querySelector(".sidebar");
+
+            menuToggle.addEventListener("click", () => {
+                sidebar.classList.toggle("hide");
+            });
+
+        });
+    </script>
+</body>
+
+</html>

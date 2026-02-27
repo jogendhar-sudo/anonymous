@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard</title>
+
+<style>
+/* ===== LOGIN PAGE ===== */
+.login-body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#2c3e50,#4ca1af);
+    font-family:Arial;
+}
+
+.login-box{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    width:320px;
+    text-align:center;
+}
+
+.login-box input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+.login-box button{
+    width:100%;
+    padding:10px;
+    background:#3498db;
+    color:white;
+    border:none;
+}
+
+/* ===== DASHBOARD ===== */
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f7fb;
+}
+
+.header{
+    background:linear-gradient(135deg,#2c3e50,#34495e);
+    color:white;
+    padding:18px;
+    text-align:center;
+}
+
+.dashboard{
+    display:flex;
+    min-height:90vh;
+}
+
+.sidebar{
+    width:220px;
+    background:#2c3e50;
+    color:white;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+}
+
+.sidebar a{
+    color:white;
+    text-decoration:none;
+    margin-bottom:15px;
+    cursor:pointer;
+}
+
+.main-content{
+    flex:1;
+    padding:30px;
+}
+
+.postCard{
+    background:white;
+    padding:15px;
+    margin-top:15px;
+    border-radius:8px;
+}
+
+textarea{
+    width:100%;
+    height:110px;
+    padding:10px;
+}
+
+button{
+    margin-top:10px;
+    padding:8px 14px;
+    background:#3498db;
+    color:white;
+    border:none;
+    border-radius:5px;
+}
+
+.commentSection{
+    background:#f1f1f1;
+    padding:8px;
+    margin-top:10px;
+}
+
+@media(max-width:768px){
+.dashboard{flex-direction:column;}
+.sidebar{width:100%;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="loginPage" class="login-body">
+
+<div class="login-box">
+<h2>Teacher Login</h2>
+
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+</div>
+
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<div id="dashboard" style="display:none;">
+
+<div class="header">
+<h2>Teacher Dashboard 👨‍🏫</h2>
+</div>
+
+<div class="dashboard">
+
+<aside class="sidebar">
+<a onclick="showHome()">Home</a>
+<a onclick="showProfile()">Profile</a>
+<a onclick="showPost()">Post</a>
+<a onclick="logout()">Logout</a>
+</aside>
+
+<main class="main-content">
+
+<div id="homeSection">
+<h2>Welcome Teacher</h2>
+</div>
+
+<div id="profileSection" style="display:none;">
+<h2>Profile Settings</h2>
+<button>Request Password</button>
+<button>Change Password</button>
+</div>
+
+<div id="postSection" style="display:none;">
+<h2>Post Message</h2>
+
+<textarea id="messageInput"></textarea>
+<button onclick="sendPost()">Send Message</button>
+
+<div id="postsContainer"></div>
+</div>
+
+</main>
+</div>
+</div>
+
+<script>
+
+/* ===== LOGIN ===== */
+function login(){
+
+let user=document.getElementById("username").value;
+let pass=document.getElementById("password").value;
+
+/* simple teacher login */
+if(user==="teacher" && pass==="1234"){
+    loginPage.style.display="none";
+    dashboard.style.display="block";
+}else{
+    alert("Wrong login");
+}
+}
+
+function logout(){
+dashboard.style.display="none";
+loginPage.style.display="flex";
+}
+
+/* ===== SECTION SWITCH ===== */
+function showHome(){
+homeSection.style.display="block";
+profileSection.style.display="none";
+postSection.style.display="none";
+}
+
+function showProfile(){
+homeSection.style.display="none";
+profileSection.style.display="block";
+postSection.style.display="none";
+}
+
+function showPost(){
+homeSection.style.display="none";
+profileSection.style.display="none";
+postSection.style.display="block";
+}
+
+/* ===== POST ===== */
+function sendPost(){
+
+let msg=messageInput.value;
+if(msg.trim()==="") return;
+
+let post=document.createElement("div");
+post.className="postCard";
+
+post.innerHTML=`
+<h4>👨‍🏫 Teacher</h4>
+<p>${msg}</p>
+<button onclick="toggleComment(this)">Reply</button>
+
+<div class="commentSection" style="display:none;">
+<input placeholder="Write reply">
+<button onclick="addComment(this)">Send</button>
+<div></div>
+</div>
+`;
+
+postsContainer.appendChild(post);
+messageInput.value="";
+}
+
+function toggleComment(btn){
+let box=btn.nextElementSibling;
+box.style.display=box.style.display==="none"?"block":"none";
+}
+
+function addComment(btn){
+let input=btn.previousElementSibling;
+if(input.value.trim()==="") return;
+
+let p=document.createElement("p");
+p.innerText="👨‍🏫 "+input.value;
+
+btn.nextElementSibling.appendChild(p);
+input.value="";
+}
+
+</script>
+
+</body>
+</html>
