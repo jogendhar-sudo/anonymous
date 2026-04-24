@@ -18,10 +18,10 @@ A modern and efficient web-based project designed to provide a smooth user exper
 - 🔄 Notifications  
 - 🔄 Dark Mode  
 
-## Team Members
+##👥 Team Members
+- B. Jogendhar (Founder)
 - P. Vishnuvardhan (Co-founder)
 - R. Ramcharan Teja (Co-founder)
-- B. Jogendhar (Founder)
   
-## Click the link
-https://jogendhar-sudo.github.io/anonymous/
+##🌐 Live Demo
+🔗 https://jogendhar-sudo.github.io/anonymous/
