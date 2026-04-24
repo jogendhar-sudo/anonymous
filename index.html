@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡Anonymous Confession Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #111827;
+        }
+
+        /* HEADER */
+        header {
+            background: #1e2f45;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .login-btn {
+            background: white;
+            color: #1e2f45;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 500px;
+            background: linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)),
+                url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 22px;
+        }
+
+        /* SECTION */
+        .section {
+            padding: 60px 40px;
+            background: white;
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 35px;
+            color: #1e2f45;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #eef3f8;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            color: #1e2f45;
+        }
+
+        /* FOOTER */
+        .footer {
+            margin-top: 60px;
+            padding: 40px 25px;
+            background: #0f172a;
+            color: #fff;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-box h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .footer-box a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: .3s;
+        }
+
+        .footer-box a:hover {
+            color: #38bdf8;
+            padding-left: 5px;
+        }
+
+        .copy {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* POPUP */
+        .popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .65);
+            z-index: 999;
+        }
+
+        .login-box {
+            width: 95%;
+            max-width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .2);
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #1e2f45;
+            text-align: center;
+        }
+
+        .login-box input,
+        .login-box select {
+            width: 100%;
+            padding: 13px;
+            margin: 10px 0;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #1e2f45;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 14px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            font-size: 14px;
+            text-decoration: none;
+            color: #2563eb;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            margin-top: -8px;
+        }
+
+        @media(max-width:768px) {
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            header {
+                padding: 18px 20px;
+            }
+
+            .section,
+            footer {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Anonymous Confession Portal</div>
+
+        <button class="login-btn" onclick="openLogin()">Login</button>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>Speak Freely</h1>
+            <p>Share your thoughts anonymously without fear.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Why Use Our Portal?</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>100% Anonymous</h3>
+                <p>No identity revealed while posting confessions.</p>
+            </div>
+
+            <div class="card">
+                <h3>Secure System</h3>
+                <p>Your data is protected with secure technologies.</p>
+            </div>
+
+            <div class="card">
+                <h3>Easy Access</h3>
+                <p>Login quickly as User or Admin.</p>
+            </div>
+
+            <div class="card">
+                <h3>Moderation</h3>
+                <p>Admins can monitor harmful content.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INDEX PAGE FOOTER (ADMIN CONTROLLED ONLY) -->
+
+    <footer class="footer">
+
+        <div class="footer-grid">
+            <div class="footer-box">
+                <h3>Support</h3>
+
+                <a href="support.html#help">Help Center</a>
+
+                <a href="support.html#privacy">Privacy Policy</a>
+
+                <a href="support.html#terms">Terms & Conditions</a>
+
+            </div>
+
+
+            <div class="footer-box">
+                <h3>Contact</h3>
+
+                <a id="emailLink" href="#">
+                    Email Support
+                </a>
+
+                <a id="instagramLink" href="#" target="_blank">
+                    Instagram
+                </a>
+
+                <a id="whatsappLink" href="#" target="_blank">
+                    WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <p class="copy">
+            © 2026 Campus Portal. All Rights Reserved.
+        </p>
+
+    </footer>
+
+    <!-- LOGIN POPUP -->
+    <div class="popup" id="popup">
+        <div class="login-box">
+
+            <span class="close-btn" onclick="closeLogin()">&times;</span>
+
+            <form action="/login" method="POST">
+
+                <h2>Login</h2>
+
+                <select name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="User">User 👤</option>
+                    <option value="Admin">Admin 👑</option>
+                </select>
+
+                <input type="text" name="username" placeholder="Enter Username" required>
+
+                <input type="password" name="password" placeholder="Enter Password" required>
+
+                <button type="submit">Login</button>
+
+                <div class="links">
+                    <a href="#" onclick="forgotPassword()">Forgot Password?</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        // ===============================
+        // INDEX PAGE FULL JAVASCRIPT
+        // ===============================
+
+        // Default Admin Account
+        if (!localStorage.getItem("users")) {
+
+            localStorage.setItem(
+                "users",
+                JSON.stringify([
+                    {
+                        username: "admin",
+                        password: "admin123",
+                        role: "Admin"
+                    }
+                ])
+            );
+        }
+
+
+        // Page Load
+        window.onload = function () {
+
+            // Auto Redirect
+            let role = localStorage.getItem("loggedRole");
+
+            if (role === "Admin") {
+                location.href = "admin-page.html";
+                return;
+            }
+
+            if (role === "User") {
+                location.href = "user-page.html";
+                return;
+            }
+            // Footer Contact Links (without general settings)
+
+            document.getElementById("emailLink").href =
+                "mailto:support@campus.com";
+
+            document.getElementById("instagramLink").href =
+                "https://instagram.com/";
+
+            document.getElementById("whatsappLink").href =
+                "https://wa.me/916303096576";
+        };
+
+
+        // Open Login Popup
+        function openLogin() {
+            document.getElementById("popup").style.display = "block";
+        }
+
+
+        // Close Login Popup
+        function closeLogin() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+
+        // Outside Click Close
+        window.onclick = function (e) {
+
+            if (e.target.id === "popup") {
+                closeLogin();
+            }
+        };
+
+
+        // Login Form
+        document.querySelector("form").onsubmit = function (e) {
+
+            e.preventDefault();
+
+            let role =
+                document.querySelector("select").value;
+
+            let username =
+                document.querySelector(
+                    "input[name='username']"
+                ).value;
+
+            let password =
+                document.querySelector(
+                    "input[name='password']"
+                ).value;
+
+            let users =
+                JSON.parse(localStorage.getItem("users")) || [];
+
+            let found = users.find(user =>
+                user.username === username &&
+                user.password === password &&
+                user.role === role
+            );
+
+            if (found) {
+
+                localStorage.setItem(
+                    "loggedUser",
+                    username
+                );
+
+                localStorage.setItem(
+                    "loggedRole",
+                    role
+                );
+
+                if (role === "Admin") {
+                    location.href = "admin-page.html";
+                } else {
+                    location.href = "user-page.html";
+                }
+
+            } else {
+                alert("Invalid Login");
+            }
+        };
+
+
+        // Combined User + Admin Forgot Password
+
+        function forgotPassword() {
+
+            let role = prompt("Enter Role (Admin/User)");
+
+            if (!role) return;
+
+            role = role.toLowerCase();
+
+            // ADMIN RESET
+            if (role === "admin") {
+
+                let key = prompt("Enter Admin Reset Key");
+
+                if (key !== "admin123reset") {
+                    alert("Invalid Reset Key");
+                    return;
+                }
+
+                let newPass = prompt("Enter New Password");
+
+                if (!newPass) return;
+
+                let users =
+                    JSON.parse(localStorage.getItem("users")) || [];
+
+                let admin =
+                    users.find(u => u.role === "Admin");
+
+                if (admin) {
+                    admin.password = newPass;
+
+                    localStorage.setItem(
+                        "users",
+                        JSON.stringify(users)
+                    );
+
+                    alert("✅ Admin Password Reset Success");
+                }
+
+                return;
+            }
+
+            // USER REQUEST TO ADMIN
+            if (role === "user") {
+
+                let username = prompt("Enter Username");
+
+                if (!username) return;
+
+                let users =
+                    JSON.parse(localStorage.getItem("users")) || [];
+
+                let found =
+                    users.find(u =>
+                        u.username === username &&
+                        u.role === "User"
+                    );
+
+                if (!found) {
+                    alert("User not found");
+                    return;
+                }
+
+                let requests =
+                    JSON.parse(localStorage.getItem("passwordRequests")) || [];
+
+                requests.push({
+                    user: username,
+                    password: "Forgot Password Request",
+                    role: "User",
+                    status: "Unread"
+                });
+
+                localStorage.setItem(
+                    "passwordRequests",
+                    JSON.stringify(requests)
+                );
+
+                alert("📩 Request sent to Admin");
+                return;
+            }
+
+            alert("Enter only Admin or User");
+        }
+    </script>
+</body>
+
+</html>

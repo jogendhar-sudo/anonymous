@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #020617;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .phone {
+            width: 390px;
+            height: 820px;
+            background: #07111f;
+            border-radius: 28px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #243247;
+        }
+
+        header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #081523;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .profile {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #2563eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+            padding: 2px;
+            flex-shrink: 0;
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .menu {
+            position: absolute;
+            top: 75px;
+            right: 15px;
+            background: #0f1b2d;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 10px;
+            width: 180px;
+            display: none;
+            z-index: 99;
+        }
+
+        .menu div {
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .menu div:hover {
+            background: #173154;
+        }
+
+        .feed {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .empty {
+            text-align: center;
+            margin-top: 40px;
+            color: #94a3b8;
+        }
+
+        .card {
+            background: #0f1b2d;
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            border: 1px solid #1f314d;
+        }
+
+        .name {
+            color: #3ea1ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .text {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .actions button {
+            height: 44px;
+            border: none;
+            border-radius: 12px;
+            background: #173154;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .comment-box {
+            display: none;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .comment-box input {
+            flex: 1;
+            height: 40px;
+            border: none;
+            outline: none;
+            padding: 0 12px;
+            border-radius: 10px;
+            background: #09182d;
+            color: white;
+        }
+
+        .comment-box button {
+            width: 48px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        .comment {
+            background: #09182d;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .composer {
+            padding: 14px;
+            border-top: 1px solid #1f314d;
+            background: #07111f;
+            position: relative;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .circle {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #msg {
+            flex: 1;
+            height: 50px;
+            border: none;
+            outline: none;
+            border-radius: 14px;
+            padding: 0 15px;
+            background: #0f1b2d;
+            color: white;
+        }
+
+        .emoji-box {
+            position: absolute;
+            bottom: 75px;
+            left: 14px;
+            background: #0f1b2d;
+            border: 1px solid #334155;
+            padding: 12px;
+            border-radius: 14px;
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            width: 230px;
+        }
+
+        .emoji-box span {
+            font-size: 26px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="phone">
+
+        <header>
+            <span>Anonymous Portal</span>
+
+
+
+            <div class="profile" onclick="toggleMenu()">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+                <div class="menu" id="menu">
+                    <div onclick="viewProfile()">👤 Profile View</div>
+                    <div onclick="changePassword()">🔒 Change Password Request</div>
+                    <div onclick="logout()">🚪 Logout</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="feed" id="feed">
+            <div class="empty" id="emptyText">No confessions yet... 😶</div>
+        </div>
+
+        <div class="composer">
+
+            <div class="emoji-box" id="emojiBox">
+                <span onclick="addEmoji('😀')">😀</span>
+                <span onclick="addEmoji('😂')">😂</span>
+                <span onclick="addEmoji('😍')">😍</span>
+                <span onclick="addEmoji('😎')">😎</span>
+                <span onclick="addEmoji('🥺')">🥺</span>
+                <span onclick="addEmoji('🔥')">🔥</span>
+                <span onclick="addEmoji('❤️')">❤️</span>
+                <span onclick="addEmoji('👍')">👍</span>
+                <span onclick="addEmoji('🎉')">🎉</span>
+                <span onclick="addEmoji('🤝')">🤝</span>
+            </div>
+
+            <div class="row">
+                <button class="circle" onclick="toggleEmoji()">😊</button>
+                <input type="text" id="msg" placeholder="Write confession...">
+                <button class="circle" onclick="sendPost()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // USER PAGE FINAL SCRIPT
+
+        // Session Check
+        if (localStorage.getItem("loggedRole") !== "User") {
+            location.href = "index.html";
+        }
+
+        let username = localStorage.getItem("loggedUser") || "Anonymous";
+
+        // Load posts on open
+        window.onload = function () {
+            loadPosts();
+        };
+
+        // Emoji Toggle
+        function toggleEmoji() {
+            let box = document.getElementById("emojiBox");
+            box.style.display = box.style.display === "grid" ? "none" : "grid";
+        }
+
+        // Add Emoji
+        function addEmoji(e) {
+            document.getElementById("msg").value += e;
+        }
+
+        // Send Post
+        function sendPost() {
+
+            let msg = document.getElementById("msg");
+            let text = msg.value.trim();
+
+            if (text === "") return;
+
+            let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+            posts.unshift({
+                name: username,
+                text: text,
+                likes: 0,
+                dislikes: 0,
+                comments: []
+            });
+
+            localStorage.setItem("posts", JSON.stringify(posts));
+
+            msg.value = "";
+
+            loadPosts();
+        }
+
+        // Load Posts
+        function loadPosts() {
+
+            let feed = document.getElementById("feed");
+            let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+            feed.innerHTML = "";
+
+            if (posts.length === 0) {
+                feed.innerHTML = `<div class="empty">No confessions yet... 😶</div>`;
+                return;
+            }
+
+            posts.forEach((post, i) => {
+
+                let comments = "";
+
+                post.comments.forEach(c => {
+                    comments += `<div class="comment">${c}</div>`;
+                });
+
+                // Show Admin name only, others anonymous
+                let displayName =
+                    post.name === "Admin"
+                        ? "Admin"
+                        : "#Anonymous";
+
+                feed.innerHTML += `
+        <div class="card">
+
+            <div class="name">${displayName}</div>
+
+            <div class="text">${post.text}</div>
+
+            <div class="meta">
+                <span>👍 ${post.likes} 👎 ${post.dislikes} 💬 ${post.comments.length}</span>
+                <span>Just now</span>
+            </div>
+
+            <div class="actions">
+                <button onclick="likePost(${i})">👍</button>
+                <button onclick="dislikePost(${i})">👎</button>
+                <button onclick="toggleComment(this)">💬</button>
+            </div>
+
+            <div class="comment-box">
+                <input type="text" placeholder="Write comment...">
+                <button onclick="postComment(this,${i})">➤</button>
+            </div>
+
+            <div class="comments">
+                ${comments}
+            </div>
+
+        </div>
+        `;
+            });
+        }
+        // Replace likePost() and dislikePost()
+
+        function likePost(i) {
+
+            let user = localStorage.getItem("loggedUser");
+            let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+            if (!posts[i].likedUsers) posts[i].likedUsers = [];
+            if (!posts[i].dislikedUsers) posts[i].dislikedUsers = [];
+
+            if (posts[i].likedUsers.includes(user)) {
+                alert("You already liked this post 👍");
+                return;
+            }
+
+            // remove dislike if exists
+            if (posts[i].dislikedUsers.includes(user)) {
+                posts[i].dislikedUsers =
+                    posts[i].dislikedUsers.filter(u => u !== user);
+
+                posts[i].dislikes--;
+            }
+
+            posts[i].likedUsers.push(user);
+            posts[i].likes++;
+
+            localStorage.setItem("posts", JSON.stringify(posts));
+            loadPosts();
+        }
+
+
+
+        function dislikePost(i) {
+
+            let user = localStorage.getItem("loggedUser");
+            let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+            if (!posts[i].likedUsers) posts[i].likedUsers = [];
+            if (!posts[i].dislikedUsers) posts[i].dislikedUsers = [];
+
+            if (posts[i].dislikedUsers.includes(user)) {
+                alert("You already disliked this post 👎");
+                return;
+            }
+
+            // remove like if exists
+            if (posts[i].likedUsers.includes(user)) {
+                posts[i].likedUsers =
+                    posts[i].likedUsers.filter(u => u !== user);
+
+                posts[i].likes--;
+            }
+
+            posts[i].dislikedUsers.push(user);
+            posts[i].dislikes++;
+
+            localStorage.setItem("posts", JSON.stringify(posts));
+            loadPosts();
+        }
+
+        // Toggle Comment
+        function toggleComment(btn) {
+            let box = btn.parentElement.nextElementSibling;
+            box.style.display = box.style.display === "flex" ? "none" : "flex";
+        }
+
+        // Add Comment
+        function postComment(btn, i) {
+
+            let input = btn.previousElementSibling;
+            let text = input.value.trim();
+
+            if (text === "") return;
+
+            let posts = JSON.parse(localStorage.getItem("posts"));
+
+            posts[i].comments.push(username + ": " + text);
+
+            localStorage.setItem("posts", JSON.stringify(posts));
+
+            loadPosts();
+        }
+
+        // Menu
+        function toggleMenu() {
+            let menu = document.getElementById("menu");
+            menu.style.display =
+                menu.style.display === "block" ? "none" : "block";
+        }
+
+        // Profile View
+        function viewProfile() {
+
+            let username = localStorage.getItem("loggedUser") || "Anonymous";
+            let role = localStorage.getItem("loggedRole") || "User";
+
+            alert(
+                "👤 Username: " + username +
+                "\n🎓 Role: " + role
+            );
+        }
+
+        // Change Password Request to Admin
+        function changePassword() {
+
+            let username = localStorage.getItem("loggedUser");
+            let newPass = prompt("Enter New Password");
+
+            if (!newPass || newPass.trim() === "") return;
+
+            let requests =
+                JSON.parse(localStorage.getItem("passwordRequests")) || [];
+
+            requests.push({
+                user: username,
+                password: newPass,
+                message: username + " sent password change request",
+                status: "Unread",
+                date: new Date().toLocaleString()
+            });
+
+            localStorage.setItem(
+                "passwordRequests",
+                JSON.stringify(requests)
+            );
+
+            alert("Request sent to Admin 📩");
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem("loggedUser");
+            localStorage.removeItem("loggedRole");
+            location.href = "index.html";
+        }
+    </script>
+
+</body>
+
+</html>
